@@ -17,10 +17,9 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
 # change openblas to mkl
 # OpenBLAS has deadlock issue
 # https://github.com/xianyi/OpenBLAS/issues/937
-RUN conda install --quiet --yes  blas=*=mkl
-
 # Install Additional Libraries
 RUN conda install --quiet --yes \
+    'blas=*=mkl' \
     'boto3=1.9.66' \
     'mpld3=0.3' \
     'graphviz=2.38.0' \

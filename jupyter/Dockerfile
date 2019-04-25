@@ -10,7 +10,6 @@ RUN apt-get update && \
     file \
     patch \
     git \
-    python-dev \
     unzip \
     graphviz \
     nkf \
@@ -18,6 +17,7 @@ RUN apt-get update && \
     libmecab-dev \
     mecab \
     mecab-ipadic-utf8 \
+    fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd
@@ -37,6 +37,7 @@ RUN conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
     'ipywidgets=7.4*' \
     'pandas=0.23*' \
+    'tornado=5.1.1' \
     'numexpr=2.6*' \
     'matplotlib=2.2*' \
     'scipy=1.1*' \
@@ -62,13 +63,10 @@ RUN conda install --quiet --yes \
     conda remove --yes --force qt pyqt && \
     conda clean -tipsy && \
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.38.1 && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+RUN pip install --no-cache-dir auto-sklearn
 
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \

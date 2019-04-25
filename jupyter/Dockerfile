@@ -35,6 +35,7 @@ USER $NB_UID
 # Install Additional Libraries
 RUN conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
+    'numpy=1.14*' \
     'ipywidgets=7.4*' \
     'pandas=0.23*' \
     'tornado=5.1.1' \

@@ -17,7 +17,7 @@ RUN apt-get update && \
     libmecab-dev \
     mecab \
     mecab-ipadic-utf8 \
-    fonts-noto-cjk \
+    fonts-takao \
     && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd

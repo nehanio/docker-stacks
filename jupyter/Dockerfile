@@ -60,7 +60,7 @@ RUN conda install --quiet --yes \
     'psycopg2=2.7.7' \
     'memory_profiler=0.55.0' \
     'jupyter_console=6.0.0' \
-    'jupyter_kernel_gateway=2.1.0' && \
+    'jupyter_kernel_gateway=2.3.0' && \
     conda remove --yes --force qt pyqt && \
     conda clean -tipsy && \
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \

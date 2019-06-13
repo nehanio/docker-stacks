@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER=jupyter/base-notebook:a238993ad594
+ARG BASE_CONTAINER=jupyter/base-notebook:38f518466042
 FROM $BASE_CONTAINER
 
 USER root
@@ -36,22 +36,21 @@ USER $NB_UID
 RUN conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
     'numpy=1.14*' \
-    'ipywidgets=7.4*' \
-    'pandas=0.23*' \
+    'pandas=0.24*' \
     'tornado=5.1.1' \
     'numexpr=2.6*' \
     'matplotlib=2.2*' \
-    'scipy=1.1*' \
+    'scipy=1.2*' \
     'seaborn=0.9*' \
     'scikit-learn=0.20*' \
     'scikit-image=0.14*' \
-    'sympy=1.1*' \
-    'cython=0.28*' \
+    'sympy=1.3*' \
+    'cython=0.29*' \
     'patsy=0.5*' \
     'statsmodels=0.9*' \
     'cloudpickle=0.5*' \
     'dill=0.2*' \
-    'numba=0.38*' \
+    'numba=0.42*' \
     'sqlalchemy=1.2*' \
     'boto3=1.9.66' \
     'mpld3=0.3' \
@@ -63,7 +62,6 @@ RUN conda install --quiet --yes \
     'jupyter_kernel_gateway=2.3.0' && \
     conda remove --yes --force qt pyqt && \
     conda clean -tipsy && \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 

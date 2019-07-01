@@ -35,6 +35,9 @@ USER $NB_UID
 # Install Additional Libraries
 RUN conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
+    'conda-forge::fbprophet=0.5*' \
+    'conda-forge::pandas-gbq=0.10.0' \
+    'gensim=3.7.3' \
     'numpy=1.14*' \
     'pandas=0.24*' \
     'tornado=5.1.1' \
@@ -65,7 +68,10 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-RUN pip install --no-cache-dir auto-sklearn
+RUN pip install --no-cache-dir \
+    auto-sklearn \
+    mojimoji \
+    mecab-python3
 
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \

@@ -37,6 +37,9 @@ RUN conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
     'conda-forge::fbprophet=0.5*' \
     'conda-forge::pandas-gbq=0.10.0' \
+    'conda-forge::fastavro=0.22.3' \
+    'conda-forge::python-snappy=0.5.4' \
+    'conda-forge::google-cloud-bigquery-storage=0.6.0' \
     'gensim=3.7.3' \
     'numpy=1.14*' \
     'pandas=0.24*' \

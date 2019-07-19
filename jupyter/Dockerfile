@@ -45,7 +45,7 @@ RUN conda install --quiet --yes \
     'pandas=0.24*' \
     'tornado=5.1.1' \
     'numexpr=2.6*' \
-    'matplotlib=2.2*' \
+    'matplotlib=3.0*' \
     'scipy=1.2*' \
     'seaborn=0.9*' \
     'scikit-learn=0.19*' \
@@ -54,20 +54,24 @@ RUN conda install --quiet --yes \
     'cython=0.29*' \
     'patsy=0.5*' \
     'statsmodels=0.9*' \
-    'cloudpickle=0.5*' \
+    'cloudpickle=0.8*' \
     'dill=0.2*' \
     'numba=0.42*' \
-    'sqlalchemy=1.2*' \
+    'sqlalchemy=1.3*' \
+    'hdf5=1.10*' \
+    'h5py=2.9*' \
+    'protobuf=3.7.*' \
     'boto3=1.9.66' \
     'mpld3=0.3' \
     'graphviz=2.38.0' \
     'pydotplus=2.0.2' \
-    'psycopg2=2.7.7' \
+    'pyarrow' \
+    'psycopg2=2.8*' \
     'memory_profiler=0.55.0' \
     'jupyter_console=6.0.0' \
     'jupyter_kernel_gateway=2.3.0' && \
     conda remove --yes --force qt pyqt && \
-    conda clean -tipsy && \
+    conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 

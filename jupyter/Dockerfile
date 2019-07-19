@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER=jupyter/base-notebook:38f518466042
+ARG BASE_CONTAINER=jupyter/base-notebook:7a3e968dd212
 FROM $BASE_CONTAINER
 
 USER root

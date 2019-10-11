@@ -40,6 +40,7 @@ RUN conda install --quiet --yes \
     'conda-forge::fastavro=0.22.3' \
     'conda-forge::python-snappy=0.5.4' \
     'conda-forge::google-cloud-bigquery-storage=0.6.0' \
+    'dask' \
     'gensim=3.7.3' \
     'numpy=1.14*' \
     'pandas=0.24*' \

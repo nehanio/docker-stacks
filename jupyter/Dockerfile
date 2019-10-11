@@ -69,7 +69,13 @@ RUN conda install --quiet --yes \
     'psycopg2=2.8*' \
     'memory_profiler=0.55.0' \
     'jupyter_console=6.0.0' \
-    'jupyter_kernel_gateway=2.3.0' && \
+    'jupyter_kernel_gateway=2.3.0' \
+    'python-graphviz' \
+    'pykalman' \
+    'colour' \
+    'gspread' \
+    'oauth2client' \
+    'google-auth' && \
     conda remove --yes --force qt pyqt && \
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
@@ -78,7 +84,12 @@ RUN conda install --quiet --yes \
 RUN pip install --no-cache-dir \
     auto-sklearn \
     mojimoji \
-    mecab-python3
+    mecab-python3 \
+    neologdn \
+    mlxtend==0.16.0 \
+    pytd \
+    stldecompose \
+    gspread_dataframe
 
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \

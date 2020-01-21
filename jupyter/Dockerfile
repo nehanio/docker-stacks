@@ -55,7 +55,7 @@ RUN wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/source
     rm -rf /var/lib/apt/lists/*
 
 RUN cd / && \
-    pip install --force --no-binary :all: numpy==1.17.4 scipy==1.4.1
+    pip install --force --no-binary :all: numpy==1.17.4 scipy==1.3.2
 
 # install ipadic-neologd
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
@@ -69,6 +69,5 @@ COPY ./requirements.txt /tmp/requirements.txt
 #RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-ENV XDG_CACHE_HOME ./.cache/
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions .
+ENV XDG_CACHE_HOME /root/.cache/
+RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"

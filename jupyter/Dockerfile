@@ -73,7 +73,7 @@ RUN curl ${MINICONDA_URL} -k -o /miniconda.sh \
       && echo "conda ${CONDA_VERSION}" >> /conda/conda-meta/pinned
 
 # Add a condarc
-ADD /jupyter/.condarc /conda/.condarc
+ADD .condarc /conda/.condarc
 
 # Add utlities to base env
 RUN conda install -y \
@@ -184,7 +184,6 @@ RUN source activate nehan \
     'scipy=1.3.0' \
     'sympy=1.5.1' \
     'cython=0.29.14' \
-    'statsmodels=0.9*' \
     'cloudpickle=0.8*' \
     'sqlalchemy=1.3*' \
     'boto3=1.11.9' \
@@ -225,7 +224,8 @@ RUN source activate nehan \
     tenacity==6.0.0 \
     pg8000==1.13.2 \
     && pip install --no-deps \
-    awswrangler==0.2.6
+    awswrangler==0.2.6 \
+    statsmodels=0.11.1
 
 RUN source activate nehan \
     && MPLBACKEND=Agg python -c "import matplotlib.pyplot"

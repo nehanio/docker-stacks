@@ -225,7 +225,7 @@ RUN source activate nehan \
     pg8000==1.13.2 \
     && pip install --no-deps \
     awswrangler==0.2.6 \
-    statsmodels=0.11.1
+    statsmodels==0.11.1
 
 RUN source activate nehan \
     && MPLBACKEND=Agg python -c "import matplotlib.pyplot"

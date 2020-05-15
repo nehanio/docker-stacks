@@ -6,8 +6,8 @@ FROM ${FROM_IMAGE}:${CUDA_VERSION}-devel-${LINUX_VERSION}
 
 # Define arguments
 ARG CUDA_SHORT_VERSION
-ARG CC_VERSION=7
-ARG CXX_VERSION=7
+ARG CC_VERSION=5
+ARG CXX_VERSION=5
 ARG PYTHON_VERSION=3.7
 ARG CFFI_VERSION=1.11.5
 ARG CUPY_VERSION=7.0
@@ -202,6 +202,10 @@ RUN source activate nehan \
     'notebook=6.0.3' \
     'jupyter_console=6.1.0' \
     'jupyter_kernel_gateway=2.4.0' \
+    'pyodbc=4.0.30' \
+    'lightgbm=2.3.1' \
+    'shap=0.32.1' \
+    'imbalanced-learn=0.3' \
     && conda remove --yes --force qt pyqt \
     && conda clean --all -f -y \
     && pip install --no-cache-dir \
@@ -223,6 +227,9 @@ RUN source activate nehan \
     s3fs==0.4.0 \
     tenacity==6.0.0 \
     pg8000==1.13.2 \
+    jpholiday==0.1.1 \
+    pandas-bj==0.1.1 \
+    fasttext==0.9.1 \
     && pip install --no-deps \
     awswrangler==0.2.6 \
     statsmodels==0.10.2

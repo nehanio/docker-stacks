@@ -32,7 +32,7 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
 # https://github.com/xianyi/OpenBLAS/issues/937
 # Install Additional Libraries
 RUN  conda update -n base conda && \
-     conda install --quiet --yes \
+    conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
     'conda-forge::fbprophet=0.5*' \
     'conda-forge::pandas-gbq=0.10.0' \
@@ -101,6 +101,10 @@ RUN pip install --no-cache-dir \
     s3fs==0.4.0 \
     tenacity==6.0.0 \
     pg8000==1.13.2 \
+    grpcio==1.29.0 \
+    grpcio-tools==1.29.0 \
+    protobuf3-to-dict==0.1.5 \
+    brain-plasma==0.2 \
     && pip install --no-deps \
     awswrangler==0.2.6 \
     statsmodels==0.10.2

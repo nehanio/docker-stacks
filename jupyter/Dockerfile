@@ -3,9 +3,28 @@ FROM $BASE_CONTAINER
 
 USER root
 
-RUN apt-get update && \
+# Spark dependencies
+# Default values can be overridden at build time
+# (ARGS are in lower case to distinguish them from ENV)
+ARG spark_version="3.0.1"
+ARG hadoop_version="3.2"
+ARG spark_checksum="E8B47C5B658E0FBC1E57EEA06262649D8418AE2B2765E44DA53AAF50094877D17297CC5F0B9B35DF2CEEF830F19AA31D7E56EAD950BBE7F8830D6874F88CFC3C"
+ARG py4j_version="0.10.9"
+ARG openjdk_version="11"
+
+ENV APACHE_SPARK_VERSION="${spark_version}" \
+    HADOOP_VERSION="${hadoop_version}"
+
+RUN set -ex; \
+# deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
+    if [ ! -d /usr/share/man/man1 ]; then \
+    	mkdir -p /usr/share/man/man1; \
+    fi; \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
-    build-essential \
+    gcc \
+    g++ \
+    make \
     curl \
     file \
     patch \
@@ -18,7 +37,20 @@ RUN apt-get update && \
     mecab \
     mecab-ipadic-utf8 \
     fonts-takao \
-    && apt-get autoremove
+    unixodbc \
+    unixodbc-dev \
+    gnupg \
+    swig \
+    htop  \
+    lsof \
+    procps \
+    npm \
+    "openjdk-${openjdk_version}-jre-headless" \
+    ca-certificates-java && \
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
@@ -36,8 +68,6 @@ RUN  conda update -n base conda && \
     'conda-forge::blas=*=mkl' \
     'conda-forge::fbprophet=0.5*' \
     'conda-forge::pandas-gbq=0.10.0' \
-    #'conda-forge::fastavro=0.22.3' \
-    #'conda-forge::python-snappy=0.5.4' \
     'conda-forge::google-cloud-bigquery-storage=0.7.0' \
     'conda-forge::pyarrow=0.17.1' \
     'conda-forge::matplotlib=3.2.1' \
@@ -73,6 +103,9 @@ RUN  conda update -n base conda && \
     'lightgbm=2.3.1' \
     'shap=0.32.1' \
     'imbalanced-learn=0.3.3' \
+    'mysql-connector-python' \
+    'xlrd' \
+    'more-itertools' \
     'notebook=6.0.3' \
     'jupyter_console=6.1.0' \
     'jupyter_kernel_gateway=2.4.0' && \
@@ -80,7 +113,6 @@ RUN  conda update -n base conda && \
     conda clean --all -f -y
 
 RUN pip install --no-cache-dir \
-    auto-sklearn==0.6.0 \
     mojimoji \
     mecab-python3==0.996.3 \
     neologdn==0.4 \
@@ -108,5 +140,24 @@ RUN pip install --no-cache-dir \
     && pip install --no-deps \
     awswrangler==0.2.6 \
     statsmodels==0.10.2
+
+# Spark installation
+WORKDIR /tmp
+# Using the preferred mirror to download Spark
+# hadolint ignore=SC2046
+RUN wget -q $(wget -qO- https://www.apache.org/dyn/closer.lua/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz\?as_json | \
+    python -c "import sys, json; content=json.load(sys.stdin); print(content['preferred']+content['path_info'])") && \
+    echo "${spark_checksum} *spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" | sha512sum -c - && \
+    tar xzf "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" -C /usr/local --owner root --group root --no-same-owner && \
+    rm "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz"
+
+WORKDIR /usr/local
+RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark
+
+# Configure Spark
+ENV SPARK_HOME=/usr/local/spark
+ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-${py4j_version}-src.zip" \
+    SPARK_OPTS="--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info" \
+    PATH=$PATH:$SPARK_HOME/bin
 
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"

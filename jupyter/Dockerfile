@@ -106,9 +106,6 @@ RUN  conda update -n base conda && \
     'mysql-connector-python' \
     'xlrd' \
     'more-itertools' \
-    'notebook=6.0.3' \
-    'jupyter_console=6.1.0' \
-    'jupyter_kernel_gateway=2.4.0' && \
     conda remove --yes --force qt pyqt && \
     conda clean --all -f -y
 

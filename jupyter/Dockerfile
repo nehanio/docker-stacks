@@ -99,13 +99,14 @@ RUN  conda update -n base conda && \
     'gspread=3.1.0' \
     'oauth2client=4.1.3' \
     'google-auth=1.6.3' \
+    'google-cloud-core=1.3.0' \
     'memory_profiler=0.55.0' \
     'lightgbm=2.3.1' \
     'shap=0.32.1' \
     'imbalanced-learn=0.3.3' \
     'mysql-connector-python' \
     'xlrd' \
-    'more-itertools' \
+    'more-itertools' && \
     conda remove --yes --force qt pyqt && \
     conda clean --all -f -y
 

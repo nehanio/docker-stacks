@@ -150,7 +150,9 @@ RUN wget -q $(wget -qO- https://www.apache.org/dyn/closer.lua/spark/spark-${APAC
     rm "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz"
 
 WORKDIR /usr/local
-RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark
+RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark && \
+    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.11.897/aws-java-sdk-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-1.11.897.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar
 
 # Configure Spark
 ENV SPARK_HOME=/usr/local/spark

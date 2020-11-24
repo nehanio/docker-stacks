@@ -39,6 +39,7 @@ RUN set -ex; \
     fonts-takao \
     unixodbc \
     unixodbc-dev \
+    libcap-dev \
     gnupg \
     swig \
     htop  \
@@ -135,6 +136,7 @@ RUN pip install --no-cache-dir \
     grpcio-tools==1.29.0 \
     protobuf3-to-dict==0.1.5 \
     brain-plasma==0.2 \
+    python-prctl \
     && pip install --no-deps \
     awswrangler==0.2.6 \
     statsmodels==0.10.2

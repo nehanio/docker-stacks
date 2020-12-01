@@ -107,6 +107,7 @@ RUN  conda update -n base conda && \
     'imbalanced-learn=0.3.3' \
     'mysql-connector-python' \
     'xlrd' \
+    'psutil' \
     'more-itertools' && \
     conda remove --yes --force qt pyqt && \
     conda clean --all -f -y

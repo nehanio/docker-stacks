@@ -42,7 +42,7 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
     && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
     && chown -R spark:spark $SPARK_HOME
 
-COPY ./run.sh  /run.sh
+COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh
 
 USER spark

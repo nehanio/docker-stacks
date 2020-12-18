@@ -18,6 +18,13 @@ export SPARK_DAEMON_GROUP="spark"
 
 # Spark Config
 mv "${SPARK_CONFDIR}/spark-defaults.conf.template" "${SPARK_CONFDIR}/spark-defaults.conf"
+
+LOCAL_DIR="/local"
+if [[ ! -d /local ]]; then
+  LOCAL_DIR="/tmp"
+fi
+echo "spark.local.dir $LOCAL_DIR" >> "${SPARK_CONFDIR}/spark-defaults.conf"
+
 if [[ "$SPARK_SHUFFLE_ENABLE" = "yes" ]]; then
     echo "spark.shuffle.service.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
 fi

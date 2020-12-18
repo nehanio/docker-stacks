@@ -4,6 +4,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+export SPARK_CONFDIR="${SPARK_HOME}/conf"
+
 # Spark basic cluster
 export SPARK_MODE="${SPARK_MODE:-master}"
 export SPARK_MASTER_URL="${SPARK_MASTER_URL:-spark://spark-master:7077}"

@@ -10,6 +10,7 @@ export SPARK_CONFDIR="${SPARK_HOME}/conf"
 export SPARK_MODE="${SPARK_MODE:-master}"
 export SPARK_MASTER_URL="${SPARK_MASTER_URL:-spark://spark-master:7077}"
 export SPARK_NO_DAEMONIZE="${SPARK_NO_DAEMONIZE:-true}"
+export SPARK_SHUFFLE_ENABLE="${SPARK_SHUFFLE_ENABLE:-false}"
 
 # System Users
 export SPARK_DAEMON_USER="spark"
@@ -18,7 +19,7 @@ export SPARK_DAEMON_GROUP="spark"
 # Spark Config
 mv "${SPARK_CONFDIR}/spark-defaults.conf.template" "${SPARK_CONFDIR}/spark-defaults.conf"
 if [[ "$SPARK_SHUFFLE_ENABLE" = "yes" ]]; then
-    echo "spark.shuffle.service.enabled true" >> "${SPARK_BASEDIR}/conf/spark-defaults.conf"
+    echo "spark.shuffle.service.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
 fi
 
 if [[ "$SPARK_MODE" == "master" ]]; then

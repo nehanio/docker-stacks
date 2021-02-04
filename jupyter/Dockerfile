@@ -16,9 +16,9 @@ ENV APACHE_SPARK_VERSION="${spark_version}" \
     HADOOP_VERSION="${hadoop_version}"
 
 RUN set -ex; \
-# deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
+    # deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
     if [ ! -d /usr/share/man/man1 ]; then \
-    	mkdir -p /usr/share/man/man1; \
+    mkdir -p /usr/share/man/man1; \
     fi; \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -74,7 +74,7 @@ RUN  conda update -n base conda && \
     'conda-forge::matplotlib=3.2.1' \
     'conda-forge::pyodbc=4.0.30' \
     'numpy=1.18.1' \
-    'pandas=0.25.3' \
+    'pandas=1.2.1' \
     'scikit-learn=0.21*' \
     'numexpr=2.6.9' \
     'seaborn=0.9.0' \
@@ -107,6 +107,7 @@ RUN  conda update -n base conda && \
     'imbalanced-learn=0.3.3' \
     'mysql-connector-python' \
     'xlrd' \
+    'paramiko' \
     'psutil' \
     'more-itertools' && \
     conda remove --yes --force qt pyqt && \

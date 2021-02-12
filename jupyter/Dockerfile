@@ -68,7 +68,7 @@ RUN  conda update -n base conda && \
     conda install --quiet --yes \
     'conda-forge::blas=*=mkl' \
     'conda-forge::fbprophet=0.5*' \
-    'conda-forge::pandas-gbq=0.10.0' \
+    'conda-forge::pandas-gbq=0.14.1' \
     'conda-forge::google-cloud-bigquery-storage=0.7.0' \
     'conda-forge::pyarrow=0.17.1' \
     'conda-forge::matplotlib=3.2.1' \

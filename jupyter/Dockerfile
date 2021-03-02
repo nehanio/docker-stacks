@@ -99,7 +99,7 @@ RUN pip install --upgrade pip \
     cloudpickle==1.6.0 \
     joblib==0.17.0 \
     numexpr==2.7.1 \
-    dask==2.30.0
+    dask[complete]==2.30.0
 
 RUN pip install --no-cache-dir \
 ## Database
@@ -107,16 +107,15 @@ RUN pip install --no-cache-dir \
     pyodbc==4.0.30 \
     psycopg2-binary==2.8.6 \
     pg8000==1.16.6 \
-    pytd>=1.4.0 \
+    pytd==1.4.3 \
     mysql-connector-python==8.0.22 \
     PyMySQL==1.0.2 \
 ## AWS
-    boto3==1.16.52 \
-    aiobotocore==1.2.1 \
+    boto3>=1.11 \
     s3fs==0.4.2 \
 ## Google / GCP
-    pandas-gbq==0.14.0 \
-    google-cloud-bigquery-storage==2.1.0 \
+    pandas-gbq==0.14.1 \
+    google-cloud-bigquery-storage==2.3.0 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \
     gspread==3.6.0 \

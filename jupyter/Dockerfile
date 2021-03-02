@@ -93,7 +93,7 @@ RUN pip install --upgrade pip \
     pandas==1.2.2 \
     sympy==1.6.2 \
     scipy==1.5.4 \
-    scikit-learn==0.23.2 \
+    scikit-learn==0.21* \
     pyarrow==3.0.0 \
     cython==0.29.22 \
     cloudpickle==1.6.0 \
@@ -107,7 +107,7 @@ RUN pip install --no-cache-dir \
     pyodbc==4.0.30 \
     psycopg2-binary==2.8.6 \
     pg8000==1.16.6 \
-    pytd==1.4.3 \
+    pytd==1.4.2 \
     mysql-connector-python==8.0.22 \
     PyMySQL==1.0.2 \
 ## AWS

@@ -93,7 +93,7 @@ RUN pip install --upgrade pip \
     pandas==1.2.2 \
     sympy==1.6.2 \
     scipy==1.5.4 \
-    scikit-learn==0.21* \
+    scikit-learn==0.21.3 \
     pyarrow==3.0.0 \
     cython==0.29.22 \
     cloudpickle==1.6.0 \

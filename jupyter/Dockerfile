@@ -89,8 +89,8 @@ RUN pip install --upgrade pip \
 ## Base packages
     mkl==2021.1.1 \
     six==1.15.0 \
-    numpy==1.20.1 \
-    pandas==1.2.2 \
+    numpy==1.19.5 \
+    pandas==1.2.3 \
     sympy==1.6.2 \
     scipy==1.5.4 \
     scikit-learn==0.21.3 \
@@ -99,7 +99,7 @@ RUN pip install --upgrade pip \
     cloudpickle==1.6.0 \
     joblib==0.17.0 \
     numexpr==2.7.1 \
-    dask[complete]==2.30.0
+    dask[complete]
 
 RUN pip install --no-cache-dir \
 ## Database

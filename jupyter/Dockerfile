@@ -115,7 +115,8 @@ RUN pip install --no-cache-dir \
     s3fs==0.4.2 \
 ## Google / GCP
     pandas-gbq==0.14.1 \
-    google-cloud-bigquery-storage==2.3.0 \
+    google-cloud-bigquery==1.23.1 \
+    google-cloud-bigquery-storage==0.7.0 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \
     gspread==3.6.0 \
@@ -133,8 +134,8 @@ RUN pip install --no-cache-dir \
     xgboost==1.2.1 \
     mlxtend==0.16.0 \
     lightgbm==2.3.1 \
-    shap==0.37.0 \
-    imbalanced-learn==0.7.0 \
+    shap==0.32.1 \
+    imbalanced-learn==0.5.0 \
 ## NLP
     gensim==3.8.3 \
     mojimoji==0.0.11 \

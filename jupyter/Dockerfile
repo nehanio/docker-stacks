@@ -86,7 +86,7 @@ ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-${py4j_versio
 
 RUN pip install --upgrade pip \
     pip install --no-cache-dir \
-## Base packages
+    ## Base packages
     mkl==2021.1.1 \
     six==1.15.0 \
     numpy==1.19.5 \
@@ -102,7 +102,7 @@ RUN pip install --upgrade pip \
     dask[complete]
 
 RUN pip install --no-cache-dir \
-## Database
+    ## Database
     sqlalchemy==1.3.20 \
     pyodbc==4.0.30 \
     psycopg2-binary==2.8.6 \
@@ -110,10 +110,10 @@ RUN pip install --no-cache-dir \
     pytd==1.4.2 \
     mysql-connector-python==8.0.22 \
     PyMySQL==1.0.2 \
-## AWS
+    ## AWS
     boto3>=1.11 \
     s3fs==0.4.2 \
-## Google / GCP
+    ## Google / GCP
     pandas-gbq==0.14.1 \
     google-cloud-bigquery==1.23.1 \
     google-cloud-bigquery-storage==0.7.0 \
@@ -121,7 +121,7 @@ RUN pip install --no-cache-dir \
     google-auth==1.23.0 \
     gspread==3.6.0 \
     gspread-dataframe==3.1.1 \
-## Visualize
+    ## Visualize
     matplotlib==3.3.2 \
     seaborn==0.11.0 \
     graphviz==0.14.2 \
@@ -130,19 +130,19 @@ RUN pip install --no-cache-dir \
     mpld3==0.5.1 \
     pydotplus==2.0.2 \
     colour==0.1.5 \
-## ML
+    ## ML
     xgboost==1.2.1 \
     mlxtend==0.16.0 \
     lightgbm==2.3.1 \
-    shap==0.32.1 \
+    shap==0.39.0 \
     imbalanced-learn==0.5.0 \
-## NLP
+    ## NLP
     gensim==3.8.3 \
     mojimoji==0.0.11 \
     mecab-python3==0.996.3 \
     neologdn==0.4 \
     fasttext==0.9.2 \
-## Other
+    ## Other
     brain-plasma==0.3.3 \
     jinja2==2.11.2 \
     more-itertools==8.6.0 \

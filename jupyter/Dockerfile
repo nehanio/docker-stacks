@@ -2,20 +2,9 @@ FROM python:3.7.6-buster
 
 USER root
 
-# Spark dependencies
-# Default values can be overridden at build time
-# (ARGS are in lower case to distinguish them from ENV)
-ARG spark_version="3.1.2"
-ARG hadoop_version="3.2"
-ARG spark_checksum="E90B31E58F6D95A42900BA4D288261D71F6C19FA39C1CB71862B792D1B5564941A320227F6AB0E09D946F16B8C1969ED2DEA2A369EC8F9D2D7099189"
-ARG py4j_version="0.10.9"
-ARG openjdk_version="11"
-
-ENV APACHE_SPARK_VERSION="${spark_version}" \
-    HADOOP_VERSION="${hadoop_version}"
-
 RUN echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
 
+ARG openjdk_version="11"
 RUN set -ex; \
     # deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
     if [ ! -d /usr/share/man/man1 ]; then \
@@ -62,6 +51,17 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
     ./bin/install-mecab-ipadic-neologd -n -y -p /var/lib/mecab/dic/mecab-ipadic-neologd && \
     cd .. && \
     rm -rf mecab-ipadic-neologd
+
+# Spark dependencies
+# Default values can be overridden at build time
+# (ARGS are in lower case to distinguish them from ENV)
+ARG spark_version="3.1.1"
+ARG hadoop_version="3.2"
+ARG spark_checksum="E90B31E58F6D95A42900BA4D288261D71F6C19FA39C1CB71862B792D1B5564941A320227F6AB0E09D946F16B8C1969ED2DEA2A369EC8F9D2D7099189234DE1BE"
+ARG py4j_version="0.10.9"
+
+ENV APACHE_SPARK_VERSION="${spark_version}" \
+    HADOOP_VERSION="${hadoop_version}"
 
 # Spark installation
 WORKDIR /tmp

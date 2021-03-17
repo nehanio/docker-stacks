@@ -114,7 +114,9 @@ RUN pip install --no-cache-dir \
     boto3>=1.11 \
     s3fs==0.4.2 \
     ## Google / GCP
-    pandas-gbq==0.14.1 \
+    pandas-gbq==0.14.1 
+
+RUN pip install --no-cache-dir \
     google-cloud-bigquery==2.11.0 \
     google-cloud-bigquery-storage==0.7.0 \
     oauth2client==4.1.3 \
@@ -129,7 +131,9 @@ RUN pip install --no-cache-dir \
     missingno==0.4.2 \
     mpld3==0.5.1 \
     pydotplus==2.0.2 \
-    colour==0.1.5 \
+    colour==0.1.5 
+
+RUN pip install --no-cache-dir \
     ## ML
     xgboost==1.2.1 \
     mlxtend==0.16.0 \

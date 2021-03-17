@@ -115,7 +115,7 @@ RUN pip install --no-cache-dir \
     s3fs==0.4.2 \
     ## Google / GCP
     pandas-gbq==0.14.1 \
-    google-cloud-bigquery==1.23.1 \
+    google-cloud-bigquery==2.11.0 \
     google-cloud-bigquery-storage==0.7.0 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \

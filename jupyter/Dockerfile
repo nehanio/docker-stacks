@@ -118,7 +118,7 @@ RUN pip install --no-cache-dir \
 
 RUN pip install --no-cache-dir \
     google-cloud-bigquery==2.11.0 \
-    google-cloud-bigquery-storage==0.7.0 \
+    google-cloud-bigquery-storage==2.3.0 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \
     gspread==3.6.0 \

@@ -1,4 +1,4 @@
-FROM python:3.7.6-buster
+FROM python:3.9.3-buster
 
 USER root
 

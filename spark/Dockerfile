@@ -20,6 +20,7 @@ RUN pip install --upgrade pip \
     pandas==1.2.3 \
     numpy==1.19.5 \
     scipy==1.5.4 \
+    pyarrow==3.0.0 \
     ## NLP
     mojimoji==0.0.11 \
     ## Other

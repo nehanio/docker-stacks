@@ -2,20 +2,9 @@ FROM python:3.7.6-buster
 
 USER root
 
-# Spark dependencies
-# Default values can be overridden at build time
-# (ARGS are in lower case to distinguish them from ENV)
-ARG spark_version="3.0.2"
-ARG hadoop_version="3.2"
-ARG spark_checksum="0E35D769AF1D94484AFAB95E2759FBD34E692AA2A6DB2FEFB0EE654BE9DDA1F01C96412F03B5E6AE4BDBA69DC622DD12CAC95002BEAB24096FD315EEF2A5F245"
-ARG py4j_version="0.10.9"
-ARG openjdk_version="11"
-
-ENV APACHE_SPARK_VERSION="${spark_version}" \
-    HADOOP_VERSION="${hadoop_version}"
-
 RUN echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
 
+ARG openjdk_version="11"
 RUN set -ex; \
     # deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
     if [ ! -d /usr/share/man/man1 ]; then \
@@ -62,6 +51,17 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
     ./bin/install-mecab-ipadic-neologd -n -y -p /var/lib/mecab/dic/mecab-ipadic-neologd && \
     cd .. && \
     rm -rf mecab-ipadic-neologd
+
+# Spark dependencies
+# Default values can be overridden at build time
+# (ARGS are in lower case to distinguish them from ENV)
+ARG spark_version="3.1.1"
+ARG hadoop_version="3.2"
+ARG spark_checksum="E90B31E58F6D95A42900BA4D288261D71F6C19FA39C1CB71862B792D1B5564941A320227F6AB0E09D946F16B8C1969ED2DEA2A369EC8F9D2D7099189234DE1BE"
+ARG py4j_version="0.10.9"
+
+ENV APACHE_SPARK_VERSION="${spark_version}" \
+    HADOOP_VERSION="${hadoop_version}"
 
 # Spark installation
 WORKDIR /tmp
@@ -114,8 +114,10 @@ RUN pip install --no-cache-dir \
     boto3>=1.11 \
     s3fs==0.4.2 \
     ## Google / GCP
-    pandas-gbq==0.14.1 \
-    google-cloud-bigquery==1.23.1 \
+    pandas-gbq==0.14.1 
+
+RUN pip install --no-cache-dir \
+    google-cloud-bigquery==2.11.0 \
     google-cloud-bigquery-storage==0.7.0 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \
@@ -129,7 +131,9 @@ RUN pip install --no-cache-dir \
     missingno==0.4.2 \
     mpld3==0.5.1 \
     pydotplus==2.0.2 \
-    colour==0.1.5 \
+    colour==0.1.5 
+
+RUN pip install --no-cache-dir \
     ## ML
     xgboost==1.2.1 \
     mlxtend==0.16.0 \

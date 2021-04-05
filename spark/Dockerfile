@@ -13,6 +13,17 @@ RUN set -ex; \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark
+# for pandasUDF
+RUN pip install --upgrade pip \
+    pip install --no-cache-dir \
+    ## Base packages
+    pandas==1.2.3 \
+    numpy==1.19.5 \
+    scipy==1.5.4 \
+    ## NLP
+    mojimoji==0.0.11 \
+    ## Other
+    jpholiday==0.1.4
 
 # HADOOP
 ENV HADOOP_VERSION 3.2.1

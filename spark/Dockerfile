@@ -10,7 +10,7 @@ RUN set -ex; \
     acl ca-certificates curl gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
     openjdk-11-jre-headless \
     ca-certificates-java \
-    libmysql-java && \
+    libmariadb-java && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark

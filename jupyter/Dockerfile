@@ -99,7 +99,9 @@ RUN pip install --upgrade pip \
     cloudpickle==1.6.0 \
     joblib==0.17.0 \
     numexpr==2.7.1 \
-    dask[complete]
+    dask[complete] \
+    ## networkx用
+    decorator==4.4.2
 
 RUN pip install --no-cache-dir \
     ## Database

@@ -171,7 +171,7 @@ RUN pip install --no-cache-dir \
 RUN pip install --no-cache-dir \
     Cython>=0.22 \
     cmdstanpy==0.4 \
-    pystan>=2.14 \
+    pystan>=2.14,<3 \
     numpy>=1.10.0 \
     pandas>=0.23.4 \
     matplotlib>=2.0.0 \

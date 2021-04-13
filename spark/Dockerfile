@@ -9,10 +9,24 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends \
     acl ca-certificates curl gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
     openjdk-11-jre-headless \
-    ca-certificates-java && \
+    ca-certificates-java \
+    libpg-java \
+    libmariadb-java && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark
+# for pandasUDF
+RUN pip install --upgrade pip \
+    pip install --no-cache-dir \
+    ## Base packages
+    pandas==1.2.3 \
+    numpy==1.19.5 \
+    scipy==1.5.4 \
+    pyarrow==3.0.0 \
+    ## NLP
+    mojimoji==0.0.11 \
+    ## Other
+    jpholiday==0.1.4
 
 # HADOOP
 ENV HADOOP_VERSION 3.2.2

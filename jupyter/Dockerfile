@@ -169,17 +169,17 @@ RUN pip install --no-cache-dir \
 
 ## fbprohet
 RUN pip install --no-cache-dir \
-    Cython>=0.22 \
-    cmdstanpy==0.4 \
-    pystan>=2.14,<3 \
-    numpy>=1.10.0 \
-    pandas>=0.23.4 \
-    matplotlib>=2.0.0 \
-    LunarCalendar>=0.0.9 \
-    convertdate>=2.1.2 \
-    holidays>=0.9.5 \
-    setuptools-git>=1.2 \
-    python-dateutil>=2.8.0
+    "Cython>=0.22" \
+    "cmdstanpy==0.4" \
+    "pystan>=2.14,<3" \
+    "numpy>=1.10.0" \
+    "pandas>=0.23.4" \
+    "matplotlib>=2.0.0" \
+    "LunarCalendar>=0.0.9" \
+    "convertdate>=2.1.2" \
+    "holidays>=0.9.5" \
+    "setuptools-git>=1.2" \
+    "python-dateutil>=2.8.0"
 RUN pip install --no-cache-dir fbprophet==0.6
 
 RUN pip install --no-cache-dir --no-deps \

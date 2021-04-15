@@ -102,7 +102,9 @@ RUN pip install --upgrade pip \
     cloudpickle==1.6.0 \
     joblib==0.17.0 \
     numexpr==2.7.1 \
-    dask[complete]
+    dask[complete] \
+    ## networkx用
+    decorator==4.4.2
 
 RUN pip install --no-cache-dir \
     ## Database
@@ -121,7 +123,7 @@ RUN pip install --no-cache-dir \
 
 RUN pip install --no-cache-dir \
     google-cloud-bigquery==2.11.0 \
-    google-cloud-bigquery-storage==0.7.0 \
+    google-cloud-bigquery-storage==2.3.0 \
     google-cloud-storage==1.37.1 \
     oauth2client==4.1.3 \
     google-auth==1.23.0 \
@@ -173,17 +175,17 @@ RUN pip install --no-cache-dir \
 
 ## fbprohet
 RUN pip install --no-cache-dir \
-    Cython>=0.22 \
-    cmdstanpy==0.4 \
-    pystan>=2.14 \
-    numpy>=1.10.0 \
-    pandas>=0.23.4 \
-    matplotlib>=2.0.0 \
-    LunarCalendar>=0.0.9 \
-    convertdate>=2.1.2 \
-    holidays>=0.9.5 \
-    setuptools-git>=1.2 \
-    python-dateutil>=2.8.0
+    "Cython>=0.22" \
+    "cmdstanpy==0.4" \
+    "pystan>=2.14,<3" \
+    "numpy>=1.10.0" \
+    "pandas>=0.23.4" \
+    "matplotlib>=2.0.0" \
+    "LunarCalendar>=0.0.9" \
+    "convertdate>=2.1.2" \
+    "holidays>=0.9.5" \
+    "setuptools-git>=1.2" \
+    "python-dateutil>=2.8.0"
 RUN pip install --no-cache-dir fbprophet==0.6
 
 RUN pip install --no-cache-dir --no-deps \

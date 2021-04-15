@@ -56,6 +56,9 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
     && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
     && chown -R spark:spark $SPARK_HOME
 
+RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop2-2.2.0/gcs-connector-hadoop2-2.2.0.jar" --output /use/share/java/gcs-connector-hadoop2-2.2.0.jar
+
 COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh
 

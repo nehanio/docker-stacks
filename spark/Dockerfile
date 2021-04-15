@@ -58,7 +58,8 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
 
 RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop2-2.2.0/gcs-connector-hadoop2-2.2.0.jar" --output /usr/share/java/gcs-connector-hadoop2-2.2.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/http-client/google-http-client/1.39.2/google-http-client-1.39.2.jar" --output /usr/share/java/google-http-client-1.39.2.jar
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/http-client/google-http-client/1.39.2/google-http-client-1.39.2.jar" --output /usr/share/java/google-http-client-1.39.2.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/oauth-client/google-oauth-client/1.31.5/google-oauth-client-1.31.5.jar" --output /usr/share/java/google-oauth-client-1.31.5.jar
 
 COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh

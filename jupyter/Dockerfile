@@ -78,11 +78,7 @@ RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar && \
     curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/http-client/google-http-client/1.39.2/google-http-client-1.39.2.jar" --output /usr/share/java/google-http-client-1.39.2.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/oauth-client/google-oauth-client/1.31.5/google-oauth-client-1.31.5.jar" --output /usr/share/java/google-oauth-client-1.31.5.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/api-client/google-api-client/1.31.4/google-api-client-1.31.4.jar" --output /usr/share/java/google-api-client-1.31.4.jar
-
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar
 
 # Configure Spark
 ENV SPARK_HOME=/usr/local/spark

@@ -17,7 +17,7 @@ export SPARK_DAEMON_USER="spark"
 export SPARK_DAEMON_GROUP="spark"
 
 # Spark Config
-mv "${SPARK_CONFDIR}/spark-defaults.conf.template" "${SPARK_CONFDIR}/spark-defaults.conf"
+cp "${SPARK_CONFDIR}/spark-defaults.conf.template" "${SPARK_CONFDIR}/spark-defaults.conf"
 
 LOCAL_DIR="/local"
 if [[ ! -d /local ]]; then

@@ -103,7 +103,8 @@ RUN pip install --upgrade pip \
     numexpr==2.7.1 \
     dask[complete] \
     ## networkx用
-    decorator==4.4.2
+    decorator==4.4.2 \
+    koalas==1.8.0
 
 RUN pip install --no-cache-dir \
     ## Database

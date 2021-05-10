@@ -52,6 +52,7 @@
     echo "connector.name=hive-hadoop2"
     echo "hive.allow-drop-table=true"
     echo "hive.metastore=glue"
+    echo "hive.security=allow-all"
 } > "/etc/trino/catalog/glue.properties"
 
 exec "$@"

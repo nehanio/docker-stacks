@@ -89,11 +89,9 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
 
 RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /opt/sparkRapidsPlugin/rapids-4-spark_2.12-0.5.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /opt/sparkRapidsPlugin/cudf-0.19.2-cuda10-1.jar
-
-# install GPU Discovery Script
-RUN curl -s -L --url "https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh" --output /opt/sparkRapidsPlugin/getGpusResources.sh
+    curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /usr/share/java/rapids-4-spark_2.12-0.5.0.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /usr/share/java/cudf-0.19.2-cuda10-1.jar && \
+    curl -s -L --url "https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh" --output /usr/share/java/getGpusResources.sh
 
 
 COPY ./spark/run.sh  /run.sh

@@ -11,7 +11,8 @@ RUN set -ex; \
     openjdk-11-jre-headless \
     ca-certificates-java \
     libpg-java \
-    libmariadb-java && \
+    libmariadb-java \
+    gnupg2 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark
@@ -28,6 +29,35 @@ RUN pip install --upgrade pip \
     ## Other
     jpholiday==0.1.4
 
+
+# CUDA 10.1
+RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+
+ENV CUDA_VERSION 10.1.243
+ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+
+# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-cudart-$CUDA_PKG_VERSION \
+    cuda-compat-10-1 \
+    && ln -s cuda-10.1 /usr/local/cuda && \
+    rm -rf /var/lib/apt/lists/*
+
+# Required for nvidia-docker v1
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
+
+
 # HADOOP
 ENV HADOOP_VERSION 3.2.2
 ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
@@ -41,6 +71,7 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME hadoop \
       | tar -x -C /usr/ \
     && rm -rf $HADOOP_HOME/share/doc \
     && chown -R hadoop:hadoop $HADOOP_HOME
+
 
 # SPARK
 ENV SPARK_VERSION 3.1.1
@@ -57,7 +88,13 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
     && chown -R spark:spark $SPARK_HOME
 
 RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /opt/sparkRapidsPlugin/rapids-4-spark_2.12-0.5.0.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /opt/sparkRapidsPlugin/cudf-0.19.2-cuda10-1.jar
+
+# install GPU Discovery Script
+RUN curl -s -L --url "https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh" --output /opt/sparkRapidsPlugin/getGpusResources.sh
+
 
 COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh

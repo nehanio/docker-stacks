@@ -8,7 +8,7 @@ RUN set -ex; \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     acl ca-certificates curl gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
-    openjdk-11-jre-headless \
+    nvidia-openjdk-8-jre \
     ca-certificates-java \
     libpg-java \
     libmariadb-java \

@@ -1,5 +1,7 @@
 FROM python:3.7.9-slim
 
+RUN echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
+
 RUN set -ex; \
 # deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
     if [ ! -d /usr/share/man/man1 ]; then \

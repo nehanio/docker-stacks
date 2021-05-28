@@ -78,7 +78,8 @@ RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar && \
     curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.20.0.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.20.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar
+    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \
+    curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java/AthenaJDBC42.jar
 
 # Configure Spark
 ENV SPARK_HOME=/usr/local/spark
@@ -89,7 +90,7 @@ ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-${py4j_versio
 RUN pip install --upgrade pip \
     pip install --no-cache-dir \
     ## Base packages
-    mkl==2021.1.1 \
+    ## mkl==2021.1.1 \
     six==1.15.0 \
     numpy==1.19.5 \
     pandas==1.2.3 \

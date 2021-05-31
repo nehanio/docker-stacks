@@ -36,9 +36,9 @@ RUN pip install --upgrade pip \
 
 
 # CUDA 10.1
-RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 ENV CUDA_VERSION 10.1.243
 ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1

@@ -2,9 +2,9 @@ FROM python:3.7.6-buster
 
 USER root
 
-RUN echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
+RUN echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list \
+    && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
 
-ARG openjdk_version="11"
 RUN set -ex; \
     # deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
     if [ ! -d /usr/share/man/man1 ]; then \
@@ -38,11 +38,12 @@ RUN set -ex; \
     npm \
     wget \
     xz-utils \
-    "openjdk-${openjdk_version}-jre-headless" \
-    ca-certificates-java && \
+    ca-certificates-java \
+    software-properties-common && \
+    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
     curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools && \
+    apt update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools adoptopenjdk-8-hotspot && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd

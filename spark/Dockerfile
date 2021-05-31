@@ -10,12 +10,15 @@ RUN set -ex; \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     acl ca-certificates curl gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
-    nvidia-openjdk-8-jre \
     ca-certificates-java \
     libpg-java \
     libmariadb-java \
-    gnupg2 && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    gnupg2 wget \
+    software-properties-common \
+    && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
+    && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
+    && apt update && apt install -y adoptopenjdk-8-hotspot \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark
 # for pandasUDF
@@ -33,9 +36,9 @@ RUN pip install --upgrade pip \
 
 
 # CUDA 10.1
-RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 ENV CUDA_VERSION 10.1.243
 ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1

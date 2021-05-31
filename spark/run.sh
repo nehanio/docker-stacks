@@ -24,6 +24,7 @@ if [[ ! -d /local ]]; then
   LOCAL_DIR="/tmp"
 fi
 echo "spark.local.dir $LOCAL_DIR" >> "${SPARK_CONFDIR}/spark-defaults.conf"
+echo 'spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true"' >> "${SPARK_CONFDIR}/spark-defaults.conf"
 
 if [[ "$SPARK_SHUFFLE_ENABLE" = "yes" ]]; then
     echo "spark.shuffle.service.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"

@@ -17,7 +17,7 @@ RUN set -ex; \
     software-properties-common \
     && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
     && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
-    && apt update && apt install -y adoptopenjdk-8-hotspot \
+    && apt update && apt remove -y openjdk-11-jre-headless && apt install -y adoptopenjdk-8-hotspot \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark

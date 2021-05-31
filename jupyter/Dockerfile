@@ -43,7 +43,7 @@ RUN set -ex; \
     add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
     curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt update && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools adoptopenjdk-8-hotspot && \
+    apt update && apt remove -y openjdk-11-jre-headless && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools adoptopenjdk-8-hotspot && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd
@@ -76,7 +76,7 @@ RUN wget -q $(wget -qO- https://www.apache.org/dyn/closer.lua/spark/spark-${APAC
 
 WORKDIR /usr/local
 RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.971.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar && \
     curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.20.0.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.20.0.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \

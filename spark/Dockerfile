@@ -7,23 +7,23 @@ RUN set -ex; \
     if [ ! -d /usr/share/man/man1 ]; then \
     	mkdir -p /usr/share/man/man1; \
     fi; \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    acl ca-certificates curl gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
+    apt-get update \
+    && apt-get install -y --no-install-recommends software-properties-common wget gnupg2 \
+    && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
+    && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
+    && apt update \
+    && apt-get install -y --no-install-recommends \
+    acl ca-certificates curl zip gzip unzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g \
     ca-certificates-java \
     libpg-java \
     libmariadb-java \
-    gnupg2 wget \
-    software-properties-common \
-    && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
-    && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
-    && apt update && apt remove -y openjdk-11-jre-headless && apt install -y adoptopenjdk-8-hotspot \
+    adoptopenjdk-8-hotspot \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install pyspark
-# for pandasUDF
-RUN pip install --upgrade pip \
-    pip install --no-cache-dir \
+RUN pip3 install --upgrade pip \
+    # for pandasUDF
+    && pip3 install --no-cache-dir \
+    pyspark \
     ## Base packages
     pandas==1.2.3 \
     numpy==1.19.5 \
@@ -36,17 +36,17 @@ RUN pip install --upgrade pip \
 
 
 # CUDA 10.1
-RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
-    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub | apt-key add - \
+    && echo "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/cuda.list
+    #&& echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
-ENV CUDA_VERSION 10.1.243
-ENV CUDA_PKG_VERSION 10-1=$CUDA_VERSION-1
+ENV CUDA_VERSION 11.3.109
+ENV CUDA_PKG_VERSION 11-3=$CUDA_VERSION-1
 
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-cudart-$CUDA_PKG_VERSION \
-    cuda-compat-10-1 \
+    cuda-compat-11-3 \
     && ln -s cuda-10.1 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
@@ -92,12 +92,13 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME spark \
     && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
     && chown -R spark:spark $SPARK_HOME
 
-RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /usr/share/java/rapids-4-spark_2.12-0.5.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /usr/share/java/cudf-0.19.2-cuda10-1.jar && \
-    curl -s -L --url "https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh" --output /usr/share/java/getGpusResources.sh
-
+RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.19.1.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.19.1.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /usr/share/java/rapids-4-spark_2.12-0.5.0.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /usr/share/java/cudf-0.19.2-cuda10-1.jar \
+    && curl -s -L --url "https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh" --output /usr/share/java/getGpusResources.sh \
+    && curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java//AthenaJDBC42.jar \
+    && zip -d /usr/share/java/AthenaJDBC42.jar 'META-INF/*.SF' 'META-INF/*.RSA'
 
 COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh

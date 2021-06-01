@@ -10,8 +10,14 @@ RUN set -ex; \
     if [ ! -d /usr/share/man/man1 ]; then \
     mkdir -p /usr/share/man/man1; \
     fi; \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get update \
+    && apt-get install -y --no-install-recommends software-properties-common wget gnupg2 \
+    && wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
+    && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
+    && curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt update \
+    && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
     make \
@@ -36,15 +42,12 @@ RUN set -ex; \
     lsof \
     procps \
     npm \
-    wget \
     xz-utils \
     ca-certificates-java \
-    software-properties-common && \
-    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
-    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt update && apt remove -y openjdk-11-jre-headless && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools adoptopenjdk-8-hotspot && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    zip \
+    adoptopenjdk-8-hotspot \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install ipadic-neologd
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
@@ -75,12 +78,13 @@ RUN wget -q $(wget -qO- https://www.apache.org/dyn/closer.lua/spark/spark-${APAC
     rm "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz"
 
 WORKDIR /usr/local
-RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar && \
-    curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.20.0.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.20.0.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar && \
-    curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java/AthenaJDBC42.jar
+RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark \
+    && curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.897/aws-java-sdk-bundle-1.11.897.jar" --output /usr/local/spark/jars/aws-java-sdk-bundle-1.11.897.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.0/hadoop-aws-3.2.0.jar" --output /usr/local/spark/jars/hadoop-aws-3.2.0.jar \
+    && curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.20.0.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.20.0.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar \
+    && curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java/AthenaJDBC42.jar \
+    && zip -d /usr/share/java/AthenaJDBC42.jar 'META-INF/*.SF' 'META-INF/*.RSA'
 
 # Configure Spark
 ENV SPARK_HOME=/usr/local/spark

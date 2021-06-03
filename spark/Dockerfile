@@ -23,7 +23,7 @@ RUN set -ex; \
 RUN pip3 install --upgrade pip \
     # for pandasUDF
     && pip3 install --no-cache-dir \
-    pyspark \
+    pyspark==3.1.2 \
     ## Base packages
     pandas==1.2.3 \
     numpy==1.19.5 \
@@ -38,7 +38,6 @@ RUN pip3 install --upgrade pip \
 # CUDA 10.1
 RUN curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub | apt-key add - \
     && echo "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" > /etc/apt/sources.list.d/cuda.list
-    #&& echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 ENV CUDA_VERSION 11.3.109
 ENV CUDA_PKG_VERSION 11-3=$CUDA_VERSION-1
@@ -62,7 +61,6 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV NVIDIA_REQUIRE_CUDA "cuda>=10.1 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
 
-
 # HADOOP
 ENV HADOOP_VERSION 3.2.2
 ENV HADOOP_HOME /usr/hadoop-$HADOOP_VERSION
@@ -77,9 +75,8 @@ RUN useradd --system --create-home --home-dir $HADOOP_HOME hadoop \
     && rm -rf $HADOOP_HOME/share/doc \
     && chown -R hadoop:hadoop $HADOOP_HOME
 
-
 # SPARK
-ENV SPARK_VERSION 3.1.1
+ENV SPARK_VERSION 3.1.2
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"

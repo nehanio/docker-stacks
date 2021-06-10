@@ -81,6 +81,8 @@ RUN ln -s "spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" spark \
     && curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.20.0.jar" --output /usr/share/java/spark-bigquery-with-dependencies_2.12-0.20.0.jar \
     && curl -s -L --url "https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.0/gcs-connector-hadoop3-2.2.0-shaded.jar" --output /usr/share/java/gcs-connector-hadoop3-2.2.0-shaded.jar \
     && curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java/AthenaJDBC42.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/com/nvidia/rapids-4-spark_2.12/0.5.0/rapids-4-spark_2.12-0.5.0.jar" --output /usr/share/java/rapids-4-spark_2.12-0.5.0.jar \
+    && curl -s -L --url "https://repo1.maven.org/maven2/ai/rapids/cudf/0.19.2/cudf-0.19.2-cuda10-1.jar" --output /usr/share/java/cudf-0.19.2-cuda10-1.jar \
     && zip -d /usr/share/java/AthenaJDBC42.jar 'META-INF/*.SF' 'META-INF/*.RSA'
 
 # Configure Spark
@@ -122,7 +124,7 @@ RUN pip install --no-cache-dir \
     boto3>=1.11 \
     s3fs==0.4.2 \
     ## Google / GCP
-    pandas-gbq==0.14.1 
+    pandas-gbq==0.14.1
 
 RUN pip install --no-cache-dir \
     google-cloud-bigquery==2.11.0 \
@@ -140,7 +142,7 @@ RUN pip install --no-cache-dir \
     missingno==0.4.2 \
     mpld3==0.5.1 \
     pydotplus==2.0.2 \
-    colour==0.1.5 
+    colour==0.1.5
 
 RUN pip install --no-cache-dir \
     ## ML

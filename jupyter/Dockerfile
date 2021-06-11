@@ -59,7 +59,7 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
 # Spark dependencies
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
-ARG spark_version="3.1.2"
+ARG spark_version="3.1.1"
 ARG hadoop_version="3.2"
 ARG py4j_version="0.10.9"
 

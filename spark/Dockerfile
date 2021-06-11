@@ -97,6 +97,9 @@ RUN curl -s -L --url "https://storage.googleapis.com/spark-lib/bigquery/spark-bi
     && curl -s -L --url "https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.0.21.1000/AthenaJDBC42.jar" --output /usr/share/java//AthenaJDBC42.jar \
     && zip -d /usr/share/java/AthenaJDBC42.jar 'META-INF/*.SF' 'META-INF/*.RSA'
 
+RUN chmod +x /use/share/java/getGpusResources.sh
+RUN chown spark:spark /usr/share/java/getGpusResources.sh
+
 COPY ./spark/run.sh  /run.sh
 RUN chmod +x /run.sh
 

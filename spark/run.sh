@@ -25,6 +25,10 @@ if [[ ! -d /local ]]; then
 fi
 echo "spark.local.dir $LOCAL_DIR" >> "${SPARK_CONFDIR}/spark-defaults.conf"
 echo 'spark.executor.extraJavaOptions="-Dio.netty.tryReflectionSetAccessible=true"' >> "${SPARK_CONFDIR}/spark-defaults.conf"
+echo "spark.decommission.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
+echo "spark.storage.decommission.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
+echo "spark.storage.decommission.shuffleBlocks.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
+echo "spark.storage.decommission.rddBlocks.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
 
 if [[ "$SPARK_SHUFFLE_ENABLE" = "yes" ]]; then
     echo "spark.shuffle.service.enabled true" >> "${SPARK_CONFDIR}/spark-defaults.conf"
